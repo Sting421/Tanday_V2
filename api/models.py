@@ -36,6 +36,7 @@ class Rooms(models.Model):
     number_of_beds = models.IntegerField()
     price = models.FloatField()
     listing = models.ForeignKey('Listing', on_delete=models.CASCADE)
+    available_room = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name  

@@ -6,7 +6,7 @@
 {% block content %}
     <main class="container-fluid container-xxl py-4">
         <!-- Filters -->
-        <div class="d-flex gap-2 overflow-auto py-2 mb-4" style="scrollbar-width: none;">
+        <div class="d-flex gap-2 overflow-auto py-2 mb-4 " style="scrollbar-width: none; mar">
             <button class="btn {% if filter_value == 'All' %}btn-purple{% else %}btn-light{% endif %} rounded-pill px-3 py-2 flex-shrink-0"
                     onclick="filterHotel(event, '{% url 'home'%}')">
                 All Properties
@@ -39,6 +39,7 @@
                                 </div>
                             </div>
                         </div>
+                    
                         <!-- Content -->
                         <div class="card-body d-flex flex-column gap-2">
                             <h5 class="card-title fw-semibold mb-0 text-dark">{{ listing.title }}</h5>

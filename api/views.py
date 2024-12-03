@@ -156,15 +156,17 @@ def logout_view(request):
 @login_required
 def book_now(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
+        name = request.POST.get('first_name')
         email = request.POST.get('email')
-        check_in = request.POST.get('check-in')
-        check_out = request.POST.get('check-out')
-        guests = request.POST.get('guests')
+        check_in = request.POST.get('check_in')
+        check_out = request.POST.get('check_out')
+        adults = request.POST.get('adults')
+        children = request.POST.get('children')
         room_id = request.POST.get('room_id') 
         print("you book: ",room_id)
         room = get_object_or_404(Rooms, pk=room_id)
-
+         
+        guests = (int(adults) + int(children))
         error_message = None
 
         if check_out <= check_in:
@@ -192,10 +194,9 @@ def book_now(request):
             room=room,
         )
         booking.save() 
-
         return redirect('success')
-    else:
-        return render(request, 'booking.html')
+    
+    return render(request, 'booking.html')
 
 @login_required    
 def success(request):
@@ -362,8 +363,7 @@ def filter_hotel_view(request,filter_value):
     filters = Filter.objects.all()
     if filter_value:
         listings = Listing.objects.filter(filters__name=filter_value)  # Assuming you have a ManyToMany relationship
-    else:
-        listings = Listing.objects.all()
+    
 
     context = {'listings': listings,
                'filters':filters, 
