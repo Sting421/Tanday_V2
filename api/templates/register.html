@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #FFE9F6;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 450px;
+        }
+        .icon {
+            width: 0.1px;
+            height: 0.1px;
+            background-color: #ff99cc;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            margin-left: 35%;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background-color: #000;
+            color: #fff;
+        }
+        /* Custom styles for form fields */
+        .container form p {
+            margin: 0 0 1rem; /* Space between fields */
+        }
+        .container form input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <div class="container">
+        <div class="icon">
+            <img src="{% static 'logo.png' %}" width="50px" height="50px" style="border-radius: 20%;" alt="Logo">
+        </div>
+        <h1>Sign Up</h1>
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Render the form fields as paragraphs -->
+            <button type="submit" class="signup-btn">SIGN UP</button>
+        </form>
+    </div>
+</body>
+</html>

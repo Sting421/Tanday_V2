@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Successful</title>
+    <style>
+        /* Styling the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            animation: slideIn 0.6s ease-out forwards;
+        }
+
+        /* Animated title */
+        h1 {
+            color: #ffda5c;
+            font-size: 28px;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        /* Booking details styling */
+        .details {
+            text-align: left;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .details p {
+            margin: 8px 0;
+        }
+
+        /* Button styling */
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #8e24aa;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #ffda5c;
+        }
+
+        /* Slide-in animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Thank you
+            {%if booking.status == 'Check-out'%}
+                ! Come Again!!
+            {%endif%}
+            {%if booking.status == 'Check-in'%}
+                ! Enjoy your stay
+            {%endif%}
+            {%if booking.status == 'Pending'%}
+                , for your patience
+            {%endif%}
+            {%if booking.status == 'Accepted'%}
+                ! We are excited to serve you
+            {%endif%}
+        </h1>
+        <!-- Booking details -->
+        <div class="details">
+            <p><strong>Booking Number:</strong> {{ booking.booking_number }}</p>
+            <p><strong>Hotel:</strong> {{ booking.room.listing.title }}</p>
+            <p><strong>Name:</strong> {{ booking.name|capfirst }}</p>
+            <p><strong>Email:</strong> {{ booking.email }}</p>
+            <p><strong>Check-In Date:</strong> {{ booking.check_in }}</p>
+            <p><strong>Check-Out Date:</strong> {{ booking.check_out }}</p>
+            <p><strong>Number of Guests:</strong> {{ booking.guests }}</p>
+            <p><strong>Room Type:</strong> {{ booking.room.name }}</p>
+            <p><strong>Number of beds:</strong> {{ booking.room.number_of_beds }}</p>
+            <p><strong>Room price:</strong> ₱{{ booking.room.price }}</p>
+        </div>
+
+        <!-- Go back to home button -->
+        <a href="{% url 'home' %}" class="button">Go Back to Home</a>
+    </div>
+</body>
+</html>

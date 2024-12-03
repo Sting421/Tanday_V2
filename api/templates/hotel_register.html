@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #fff;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #FFFFE0;
+            padding: 2.5rem;
+            border-radius: 2rem;
+            width: 80%;
+            max-width: 1000px;
+            min-height: 500px;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background-color: #ff69b4;
+            border-radius: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 1.75rem;
+            margin: 0 0 2rem 0;
+            color: #000;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            background-color: #000;
+            color: #fff;
+        }
+        .container form p {
+            margin: 0 0 1.5rem;
+        }
+        .container form input,
+        .container form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        .container form textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .container {
+                width: 100%;
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>I. Hotel Information</h1>
+        <form action="{% url 'hotel_register' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">REGISTER</button>
+        </form>
+    </div>
+</body>
+</html>
