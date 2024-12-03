@@ -194,6 +194,10 @@ def book_now(request):
             room=room,
         )
         booking.save() 
+        rooms = get_object_or_404(Rooms, id = room_id)
+        rooms.available_room -= 1 
+        rooms.save()
+
         return redirect('success')
     
     return render(request, 'booking.html')
@@ -340,6 +344,11 @@ def acceptBooking(request, booking_id):
     if request.method == 'POST' and 'check-out-user_button' in request.POST:  
         booking.status = 'Check-out'  
         booking.save()  
+
+        rooms = get_object_or_404(Rooms, id = booking.room.id)
+        rooms.available_room += 1 
+        rooms.save()
+        
         messages.success(request, 'The booking has been accepted successfully!')
         print('successfully')
         return redirect('review', listing_id = booking.room.listing.id)
@@ -362,7 +371,7 @@ def filter_hotel_view(request,filter_value):
     print("The filter value is:",filter_value)
     filters = Filter.objects.all()
     if filter_value:
-        listings = Listing.objects.filter(filters__name=filter_value)  # Assuming you have a ManyToMany relationship
+        listings = Listing.objects.filter(filters__name=filter_value)  
     
 
     context = {'listings': listings,

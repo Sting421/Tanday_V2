@@ -56,12 +56,15 @@
                                                value="{{ room.id }}" 
                                                class="form-check-input" 
                                                id="room_{{ room.id }}"
+                                               {% if room.available_room <= 0 %} disabled {% endif %}
                                                required>
                                         <label class="form-check-label d-flex justify-content-between align-items-center p-3 border rounded-3" 
                                                for="room_{{ room.id }}">
                                             <span>{{ room.name }}</span>
                                             <span class="badge bg-purple">₱ {{ room.price|floatformat:2 }}/night</span>
                                         </label>
+                                        <span style="margin-left: 20px;">{% if room.available_room <= 0 %} Unavailable {% else %} 
+                                            Available: {{ room.available_room }}{% endif %}</span>
                                     </div>
                                 </div>
                                 {% endfor %}
