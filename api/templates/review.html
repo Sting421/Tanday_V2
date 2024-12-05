@@ -31,14 +31,7 @@
             <input type="hidden" name="text_review" value="1">
             
             <div class="form-group" style="position: relative; width: 100%;">
-                <textarea 
-                    name="text_comment" 
-                    class="form-control" 
-                    rows="2" 
-                    placeholder="Write a comment..." 
-                    required
-                    style="padding-right: 50px;"
-                ></textarea>
+                {{form.as_p}}
                 <button 
                     type="submit" 
                     class="btn btn-sm btn-primary btn-icon">
@@ -48,7 +41,7 @@
         </form>
     </main>
     <footer>
-        <p>&copy; 2023 Your Company Name</p>
+        <!-- <p>&copy; 2023 Your Company Name</p> -->
     </footer>
 </body>
 </html>

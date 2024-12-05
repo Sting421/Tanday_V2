@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegistrationForm, UserUpdateForm,RoomForm, BookingForm,EditBookingForm, HotelRegistrationForm, HotelLoginForm, ListingForm
+from .forms import UserRegistrationForm, UserUpdateForm,RoomForm, BookingForm,EditBookingForm, HotelRegistrationForm, HotelLoginForm, ListingForm, ReviewForm
 from django.contrib import messages
 from .models import Booking, Hotel, Listing, Filter, Rooms, Reviews
 from django.http import HttpResponse, JsonResponse
@@ -444,13 +444,15 @@ def review(request, listing_id):
     print(listing_id)
     listing = get_object_or_404(Listing,id=listing_id)
     print(listing.title)
-    if 'text_review' in request.POST:
-        text_review = request.POST.get('text_comment')
-        print(text_review)
-        Reviews.objects.create(user=request.user, listing=listing, message=text_review)
-        return redirect('home')
-    
-    
-    
-    
-    return render(request, 'review.html',{'listing':listing})
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.listing = listing
+            review.save()
+            return redirect('home')
+    else:
+        form = ReviewForm()
+
+    return render(request, 'review.html', {'listing': listing, 'form': form})

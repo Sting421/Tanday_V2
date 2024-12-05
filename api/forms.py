@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Booking, Hotel, Listing, Filter,Rooms
+from .models import Booking, Hotel, Listing, Filter, Reviews,Rooms
 
 # User Registration Form
 class UserRegistrationForm(forms.ModelForm):
@@ -235,3 +235,11 @@ class RoomForm(forms.ModelForm):
                 'available_room': 'Available Rooms',
             }
 
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Reviews
+        fields = ['message', 'rating']
+        labels = {
+                'message': 'Review',
+                'rating': 'rating',
+            }
