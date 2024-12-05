@@ -227,10 +227,11 @@ class ListingForm(forms.ModelForm):
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Rooms
-        fields = ['name', 'number_of_beds', 'price']
+        fields = ['name', 'number_of_beds', 'price', 'available_room']
         labels = {
                 'name': 'Room Name',  
                 'number_of_beds': 'Number of Beds',  
                 'price': 'Room Price',  
+                'available_room': 'Available Rooms',
             }
 
