@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 import uuid
+from django.utils import timezone
 
 # Hotel Manager for custom hotel authentication
 class HotelManager(models.Manager):
@@ -57,7 +58,7 @@ class Booking(models.Model):
     check_out = models.DateField(null=True, blank=True)
     guests = models.IntegerField()
     room = models.ForeignKey(Rooms, on_delete=models.CASCADE)
-    booking_number = models.CharField(max_length=12, editable=False, default=uuid.uuid4().hex[:12].upper())
+    booking_number = models.CharField(max_length=12, editable=False, default=timezone.now().strftime('%Y%m%d%H%M%S') + uuid.uuid4().hex[:14].upper())
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="Pending") 
 
     def __str__(self):

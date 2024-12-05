@@ -36,11 +36,22 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Check-in Date</label>
-                                <input type="date" name="check_in" class="form-control rounded-3" required min="{{ current_datetime|date:'Y-m-d' }}">
+                                <input 
+                                    type="date" 
+                                    name="check_in" 
+                                    class="form-control rounded-3" 
+                                    id="check_in" 
+                                    required 
+                                    min="{{ current_datetime|date:'Y-m-d' }}">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Check-out Date</label>
-                                <input type="date" name="check_out" class="form-control rounded-3" required>
+                                <input 
+                                    type="date" 
+                                    name="check_out" 
+                                    class="form-control rounded-3" 
+                                    id="check_out" 
+                                    required>
                             </div>
                         </div>
 
@@ -140,6 +151,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkInInput = document.getElementById("check_in");
+        const checkOutInput = document.getElementById("check_out");
+
+        checkInInput.addEventListener("change", function () {
+            // Get the selected check-in date
+            const checkInDate = this.value;
+
+            // Set the minimum value for the check-out date
+            checkOutInput.min = checkInDate;
+
+            // If the current check-out value is earlier than the check-in date, reset it
+            if (checkOutInput.value < checkInDate) {
+                checkOutInput.value = "";
+            }
+        });
+    });
+</script>
 {% endblock %}
 
 {% block styles %}
