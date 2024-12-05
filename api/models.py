@@ -59,7 +59,8 @@ class Booking(models.Model):
     guests = models.IntegerField()
     room = models.ForeignKey(Rooms, on_delete=models.CASCADE)
     booking_number = models.CharField(max_length=12, editable=False, default=timezone.now().strftime('%Y%m%d%H%M%S') + uuid.uuid4().hex[:14].upper())
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="Pending") 
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="Pending")
+    isReviewed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.booking_number} - {self.name} ({self.check_in} to {self.check_out})"
@@ -92,6 +93,7 @@ class Filter(models.Model):
 
 class Reviews(models.Model):
     message = models.TextField()
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     timePosted = models.DateField(auto_now_add=True)

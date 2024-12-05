@@ -43,10 +43,10 @@ def hotel_login_view(request):
                 login(request, user)
                 return redirect('hotel_dashboard')
             else:
-                return redirect('login')
-            
+                error_message = "You are not a staff member."
+                return render(request, 'hotel_login.html', {'error': error_message})
         else:
-            error_message = "Incorrect username or password. Please try again." 
+            error_message = "Incorrect username or password. Please try again."
             return render(request, 'hotel_login.html', {'error': error_message})
     return render(request, 'hotel_login.html')
 
@@ -447,11 +447,25 @@ def review(request, listing_id):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
-            review = form.save(commit=False)
-            review.user = request.user
-            review.listing = listing
-            review.save()
-            return redirect('home')
+            
+            bookings = Booking.objects.filter(user=request.user, room__listing=listing)
+            if bookings.exists():
+                booking = bookings.first() 
+                
+                if booking.isReviewed:
+                    messages.error(request, "You have already submitted a review for this booking.")
+                    return redirect('home')
+                
+                review = form.save(commit=False)
+                review.user = request.user
+                review.listing = listing
+                review.booking = booking 
+                review.save()
+                
+                booking.isReviewed = True
+                booking.save()
+                
+                return redirect('home')
     else:
         form = ReviewForm()
 

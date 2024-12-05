@@ -240,6 +240,6 @@ class ReviewForm(forms.ModelForm):
         model = Reviews
         fields = ['message', 'rating']
         labels = {
-                'message': 'Review',
-                'rating': 'rating',
-            }
+            'message': 'Review',
+            'rating': 'Rating',
+        }
