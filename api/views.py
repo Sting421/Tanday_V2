@@ -286,11 +286,12 @@ def add_room_view(request,listing_id):
     return render(request, 'add_rooms.html', {'form': form})
 @login_required
 def viewBooks(request,listing_id):
-    bookings = Booking.objects.filter(room__listing__id=listing_id)
-    
-    context = {'bookings':bookings,
-               }
-    return render(request, 'viewHotelBooks.html',context )
+        
+        bookings = Booking.objects.filter(room__listing__id=listing_id , room__listing__hotel_owner = request.user)
+        
+        context = {'bookings':bookings,
+                }
+        return render(request, 'viewHotelBooks.html',context )
 @login_required
 def acceptBooking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
