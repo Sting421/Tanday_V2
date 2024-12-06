@@ -31,7 +31,7 @@ urlpatterns = [
     path('viewBooks/<int:listing_id>/', viewBooks, name='viewBooks'),
     path('accept/<int:booking_id>/', acceptBooking, name='accept'),
 
-    path('review/<int:listing_id>/', review, name = 'review'),
+    path('review/<int:booking_id>/', review, name = 'review'),
 
     path('register/', register_view, name='register'),
     path('hotel_login/', hotel_login_view, name='hotel_login'),

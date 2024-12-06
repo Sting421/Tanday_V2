@@ -50,7 +50,7 @@
             justify-content: space-between;
             padding: 0 20%;
         }
-        .button {
+        .button-add {
             background-color: #c4b5fd;
             border: none;
             color: black;
@@ -64,7 +64,7 @@
             border-radius: 4px;
             width: 200px;
         }
-        .button:hover {
+        .button-add:hover {
             background-color: #b39ddb;
         }
         .edit-booking-form {
@@ -127,7 +127,7 @@
             padding: 0.25rem;
             transition: transform 0.3s ease;
         }
-        .user-actions button:hover {
+        .user-actions button-add:hover {
             transform: scale(1.1);
         }
 
@@ -174,6 +174,11 @@
             background-color: #8e24aa;
             color: white;
         }
+        .status-btn{
+          border: none;
+          background: none;
+          color:#0066cc;
+        }
 
         
     </style>
@@ -210,20 +215,20 @@
                         <td>{{ booking.room.name }}</td>
                         <td>{{ booking.status }}</td>
                         {%if booking.status != 'Check-out'%}
-                        <td style="display: flex;flex-direction: row; justify-content: space-between;">
+                        <td style="display: flex;flex-direction: row; width: 130px;">
 
-                            <a href="{% url 'edit_booking' booking.id %}" class="action-link">edit<i class="bi bi-pencil-fill"></i></a>
+                            <a href="{% url 'edit_booking' booking.id %}" class="action-link"><i class="bi bi-pencil-fill"></i></a>
                             <!-- <a href="#" class="action-link" onclick="confirmDelete({{ booking.id }})"><i class="bi bi-trash3"></i></a> -->
                              <form method="POST" action="{% url 'accept' booking.id %}">
                                 {% csrf_token %}
                                 {%if booking.status == 'Accepted'%}
-                                <button type="submit" name="Check-In_button" class="Check-In"><i class="bi bi-check2-square">Check-In</i></button>
+                                <button type="submit" name="Check-In_button" class="status-btn "><i class="bi bi-check2-square"></i></button>
                                 {%endif%}
                                 {%if booking.status != 'Check-in' and booking.status != 'Check-out'%}
-                                <button type="submit" name="cancel-user_button" class="Check-In"><i class="bi bi-x-square-fill">Cancel</i></button>
+                                <button type="submit" name="cancel-user_button"  class="status-btn "><i class="bi bi-x-octagon-fill"></i></button>
                                 {%endif%}
                                 {%if booking.status == 'Check-in'%}
-                                <button type="submit" name="check-out-user_button" class="Check-out"><i class="bi bi-x-square-fill">Check-out</i></button>
+                                <button type="submit" name="check-out-user_button" class="status-btn "><i class="bi bi-luggage-fill"></i></button>
                                 
                                 {%endif%}
                             </form>
@@ -236,7 +241,7 @@
         </table>
     </div>
     <div class="button-container" style="justify-content: center;">
-        <a href="{% url 'home' %}" class="button">Add Booking</a>
+        <a href="{% url 'home' %}" class="button-add">Add Booking</a>
         <!-- <button class="button" id="editBookingsButton">Edit Bookings</button> -->
     </div>
 

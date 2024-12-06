@@ -167,22 +167,7 @@ def book_now(request):
         room = get_object_or_404(Rooms, pk=room_id)
          
         guests = (int(adults) + int(children))
-        error_message = None
-
-        if check_out <= check_in:
-            error_message = "Check-out date must be after check-in date."
-
-        if error_message:
-            return render(request, 'booking.html', {
-                'error': error_message,
-                'username': request.user.username,
-                'email': email, 
-                'name': name,
-                'check_in': check_in, 
-                'check_out': check_out,
-                'guests': guests, 
-                
-            })
+        
 
         booking = Booking(
             user=request.user,
@@ -351,7 +336,7 @@ def acceptBooking(request, booking_id):
         
         messages.success(request, 'The booking has been accepted successfully!')
         print('successfully')
-        return redirect('review', listing_id = booking.room.listing.id)
+        return redirect('review', booking_id = booking_id)
 
     return render(request, 'viewHotelBooks.html', {'booking': booking})
 
@@ -440,33 +425,31 @@ def edit_user(request):
     return render(request, 'edit_user.html')
 
 @login_required
-def review(request, listing_id):
-    print(listing_id)
-    listing = get_object_or_404(Listing,id=listing_id)
-    print(listing.title)
+def review(request, booking_id):
+    print(booking_id)
+    booking = get_object_or_404(Booking,id=booking_id)
+
+    print(booking.name)
     if request.method == 'POST':
+        rating = request.POST.get('rating')
         form = ReviewForm(request.POST)
         if form.is_valid():
             
-            bookings = Booking.objects.filter(user=request.user, room__listing=listing)
-            if bookings.exists():
-                booking = bookings.first() 
-                
-                if booking.isReviewed:
-                    messages.error(request, "You have already submitted a review for this booking.")
-                    return redirect('home')
-                
-                review = form.save(commit=False)
-                review.user = request.user
-                review.listing = listing
-                review.booking = booking 
-                review.save()
-                
-                booking.isReviewed = True
-                booking.save()
-                
+            if booking.isReviewed:
+                messages.error(request, "You have already submitted a review for this booking.")
                 return redirect('home')
+            
+            review = form.save(commit=False)
+            review.user = request.user
+            review.listing = booking.room.listing
+            review.booking = booking 
+            review.rating = rating
+            review.save()
+            booking.isReviewed = True
+            booking.save()
+            
+            return redirect('home')
     else:
         form = ReviewForm()
 
-    return render(request, 'review.html', {'listing': listing, 'form': form})
+    return render(request, 'review.html', {'booking_id': booking_id,'booking': booking, 'form': form})

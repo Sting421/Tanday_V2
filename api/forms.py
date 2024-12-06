@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Booking, Hotel, Listing, Filter, Reviews,Rooms
-
+from django.utils.timezone import now
 # User Registration Form
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Password")
@@ -197,14 +197,25 @@ class EditBookingForm(forms.ModelForm):
             'check_out': forms.DateInput(attrs={'type': 'date'}),
         }
 
+    def clean_check_in(self):
+        check_in = self.cleaned_data.get('check_in')
+        today = now().date()  # Convert to date for proper comparison
+
+        # Validate that check_in is today or in the future
+        if check_in and check_in < today:
+            raise forms.ValidationError("Check-in date cannot be in the past.")
+
+        return check_in
+   
+
     def clean(self):
         cleaned_data = super().clean()
         check_in = cleaned_data.get('check_in')
         check_out = cleaned_data.get('check_out')
 
         # Check that check_out is after check_in
-        if check_in and check_out and check_out <= check_in:
-            raise forms.ValidationError("Check-out date must be after the check-in date.")
+        if check_in and check_out and check_out < check_in:
+            raise forms.ValidationError("The date of check-out cannot be earlier than the date of check-in.")
 
         return cleaned_data
     
@@ -238,8 +249,8 @@ class RoomForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Reviews
-        fields = ['message', 'rating']
+        fields = ['message']
         labels = {
             'message': 'Review',
-            'rating': 'Rating',
+           
         }
