@@ -155,6 +155,21 @@
             background: #bdbdbd;
             transform: translateY(-2px);
         }
+        .btn-add{
+            background: linear-gradient(90deg, #5bcf75, #059e00);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 10px;
+        }
+
+        
     </style>
  {% endblock extra_css %}
 
@@ -174,7 +189,7 @@
                             <p class="listing-details">{{ listing.description }}</p>
                             <p class="listing-price">₱{{ listing.price_per_night }} / night</p>
                             <a href="{% url 'update_listing' listing.id %}" class="btn"><i class="bi bi-pencil-square"></i> Edit</a>
-                            <a href="{% url 'add_room' listing.id %}" class="btn"><i class="bi bi-plus-lg"></i> Add Room</a>
+                            <a href="{% url 'add_room' listing.id %}" class="btn-add"><i class="bi bi-plus-lg"></i> Add Room</a>
                             <form action="{% url 'delete_listing' listing.id %}" method="POST" style="display:inline;">
                                 {% csrf_token %}
                                 <button type="submit" class="delete" onclick="return confirm('Are you sure you want to delete this listing?');"><i class="bi bi-trash3"></i> Delete</button>
